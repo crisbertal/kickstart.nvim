@@ -55,7 +55,8 @@ require("lazy").setup({
 	},
 	{
 		"mbbill/undotree",
-		config = function() 
+		config = function()
+			vim.g.undotree_SetFocusWhenToggle = 1
 			vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)	
 		end
 	},
@@ -125,7 +126,6 @@ local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 require('luasnip.loaders.from_snipmate').lazy_load()
--- TODO add snippets here for Flask
 
 cmp.setup {
 	snippet = {
@@ -175,5 +175,23 @@ cmp.setup {
 -- terminal color
 vim.o.termguicolors = true
 
+-- turn lff search highlight
+vim.o.hlsearch = false
+
+-- relative numbers
+vim.o.relativenumber = true
+
+-- save undo history
+vim.o.undofile = true
+
 -- file explorer
 vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
+
+-- common clipboard 
+vim.o.clipboard = 'unnamedplus'
+
+-- integration with external clipboard (xclip must be installed)
+vim.keymap.set("n", "<leader>y", '"+y')
+vim.keymap.set("v", "<leader>y", '"+y')
+vim.keymap.set("n", "<leader>p", '"+p')
+vim.keymap.set("n", "<leader>P", '"+P')
