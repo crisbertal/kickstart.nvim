@@ -28,10 +28,10 @@ require("lazy").setup({
 	{
 		'nvim-telescope/telescope.nvim', tag = '0.1.5',
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		config = function () 
+		config = function ()
 			vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, {})
 			vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, {})
-			vim.keymap.set('n', '<leader>sg', require('telescope.builtin').grep_string, {})
+			vim.keymap.set('n', '<leader>giw', require('telescope.builtin').grep_string, {})
 			vim.keymap.set('n', '<leader>lg', require('telescope.builtin').live_grep, {})
 		end
 	},
@@ -92,14 +92,23 @@ require("lazy").setup({
 	-- Autocompletion
 	{'hrsh7th/cmp-nvim-lsp'},
 	{'hrsh7th/nvim-cmp'},
-	
+
 	-- Snippets
 	{ "rafamadriz/friendly-snippets" },
 	{ "honza/vim-snippets" },
 	{
 		'L3MON4D3/LuaSnip',
-		dependencies = { "rafamadriz/friendly-snippets" } 
+		dependencies = { "rafamadriz/friendly-snippets" }
 	},
+
+	-- status line
+	{
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		config = function ()
+			require('lualine').setup({})
+		end
+	}
 })
 
 local lsp_zero = require('lsp-zero')
@@ -119,9 +128,6 @@ require('mason-lspconfig').setup({
 	},
 	ensure_installed = { "pyright" }
 })
-
-require("lspconfig").lua_ls.setup({})
-require("lspconfig").pyright.setup({})
 
 -- [[ Configure nvim-cmp ]] From kickstart nvim: https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
 local cmp = require 'cmp'
