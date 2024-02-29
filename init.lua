@@ -2,23 +2,23 @@ vim.g.mapleader = " "
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	'tpope/vim-sleuth',
-	{ 
-		'rose-pine/neovim', 
+	{
+		'rose-pine/neovim',
 		name = "rose-pine",
-		config = function () 
+		config = function()
 			require("rose-pine").setup({
 				styles = { transparency = true }
 			})
@@ -26,9 +26,10 @@ require("lazy").setup({
 		end
 	},
 	{
-		'nvim-telescope/telescope.nvim', tag = '0.1.5',
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.5',
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		config = function ()
+		config = function()
 			vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, {})
 			vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, {})
 			vim.keymap.set('n', '<leader>giw', require('telescope.builtin').grep_string, {})
@@ -41,7 +42,7 @@ require("lazy").setup({
 			'nvim-treesitter/nvim-treesitter-textobjects',
 		},
 		build = ':TSUpdate',
-		config = function () 
+		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "python" },
 				sync_install = false,
@@ -57,41 +58,41 @@ require("lazy").setup({
 		"mbbill/undotree",
 		config = function()
 			vim.g.undotree_SetFocusWhenToggle = 1
-			vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)	
+			vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
 		end
 	},
 	{
 		"ThePrimeagen/harpoon",
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		config = function () 
+		config = function()
 			local mark = require("harpoon.mark")
 			local ui = require("harpoon.ui")
 
 			vim.keymap.set("n", "<leader>a", mark.add_file)
 			vim.keymap.set("n", "<leader>oh", ui.toggle_quick_menu)
-			vim.keymap.set("n", "<C-h>", function () ui.nav_file(1) end)
-			vim.keymap.set("n", "<C-j>", function () ui.nav_file(2) end)
-			vim.keymap.set("n", "<C-k>", function () ui.nav_file(3) end)
-			vim.keymap.set("n", "<C-l>", function () ui.nav_file(4) end)
+			vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
+			vim.keymap.set("n", "<C-j>", function() ui.nav_file(2) end)
+			vim.keymap.set("n", "<C-k>", function() ui.nav_file(3) end)
+			vim.keymap.set("n", "<C-l>", function() ui.nav_file(4) end)
 		end
 	},
 	{
 		"tpope/vim-fugitive",
-		config = function () 
-			vim.keymap.set("n", "<leader>gs", vim.cmd.Git)		
+		config = function()
+			vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 		end
 	},
 
 	-- LSP plugins
 	-- LSP Support
-	{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
-	{'neovim/nvim-lspconfig'},
-	{'williamboman/mason.nvim'},
-	{'williamboman/mason-lspconfig.nvim'},
-	
+	{ 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x' },
+	{ 'neovim/nvim-lspconfig' },
+	{ 'williamboman/mason.nvim' },
+	{ 'williamboman/mason-lspconfig.nvim' },
+
 	-- Autocompletion
-	{'hrsh7th/cmp-nvim-lsp'},
-	{'hrsh7th/nvim-cmp'},
+	{ 'hrsh7th/cmp-nvim-lsp' },
+	{ 'hrsh7th/nvim-cmp' },
 
 	-- Snippets
 	{ "rafamadriz/friendly-snippets" },
@@ -105,9 +106,36 @@ require("lazy").setup({
 	{
 		'nvim-lualine/lualine.nvim',
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		config = function ()
+		config = function()
 			require('lualine').setup({})
 		end
+	},
+
+	-- formatter
+	{
+		'stevearc/conform.nvim',
+		config = function()
+			require("conform").setup({
+				format_on_save = {
+					timeout_ms = 500,
+					async = false,
+					quiet = false,
+				},
+				formatters_by_ft = {
+					javascript = { "prettier" },
+					typescript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescriptreact = { "prettier" },
+					css = { "prettier" },
+					html = { "prettier" },
+					json = { "prettier" },
+					yaml = { "prettier" },
+					markdown = { "prettier" },
+					lua = { "stylua" },
+					python = { "black" },
+				},
+			})
+		end,
 	}
 })
 
@@ -116,7 +144,7 @@ local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
 	-- see :help lsp-zero-keybindings
 	-- to learn the available actions
-	lsp_zero.default_keymaps({buffer = bufnr})
+	lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
 -- to learn how to use mason.nvim with lsp-zero
@@ -193,12 +221,12 @@ vim.o.relativenumber = true
 vim.o.undofile = true
 
 -- column line at 88 chars
-vim.opt.colorcolumn="88"
+vim.opt.colorcolumn = "88"
 
 -- file explorer
 vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
 
--- common clipboard 
+-- common clipboard
 vim.o.clipboard = 'unnamedplus'
 
 -- integration with external clipboard (xclip must be installed)
@@ -206,4 +234,3 @@ vim.keymap.set("n", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>p", '"+p')
 vim.keymap.set("n", "<leader>P", '"+P')
-
