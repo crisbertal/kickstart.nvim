@@ -15,16 +15,35 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	'tpope/vim-sleuth',
-	{
-		'rose-pine/neovim',
-		name = "rose-pine",
-		config = function()
-			require("rose-pine").setup({
-				styles = { transparency = true }
-			})
-			vim.cmd("colorscheme rose-pine")
-		end
-	},
+	'RRethy/base16-nvim',
+	-- {
+	-- 	'RRethy/base16-nvim',
+	-- 	config = function ()
+	-- 		-- NOTE: from https://github.com/nekonako/xresources-nvim/blob/master/lua/xresources.lua#L86 
+	-- 		local function get_xresources_color (c)
+	-- 			local command = io.popen('xrdb -query | grep ' .. c .. ' -m 1 | cut -f 2')
+	-- 			local color = command:read("*l")
+	-- 			return color
+	-- 		end
+
+	-- 		require('base16-colorscheme').setup({
+	-- 			base00 = get_xresources_color('color8'), base01 = get_xresources_color('color0'), base02 = get_xresources_color('color10'), base03 = get_xresources_color('color11'),
+	-- 			base04 = get_xresources_color('color12'), base05 = get_xresources_color('color14'), base06 = get_xresources_color('color7'), base07 = get_xresources_color('color15'),
+	-- 			base08 = get_xresources_color('color1'), base09 = get_xresources_color('color9'), base0A = get_xresources_color('color2'), base0B = get_xresources_color('color3'),
+	-- 			base0C = get_xresources_color('color6'), base0D = get_xresources_color('color4'), base0E = get_xresources_color('color13'), base0F = get_xresources_color('color5'),
+	-- 		})
+	-- 	end
+	-- },
+	-- {
+	-- 	'rose-pine/neovim',
+	-- 	name = "rose-pine",
+	-- 	config = function()
+	-- 		require("rose-pine").setup({
+	-- 			styles = { transparency = true }
+	-- 		})
+	-- 		vim.cmd("colorscheme rose-pine")
+	-- 	end
+	-- },
 	{
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.5',
@@ -111,6 +130,12 @@ require("lazy").setup({
 		end
 	},
 
+	-- Highlight todo, notes, etc in comments
+	{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+
+	-- commentary
+	{ 'tpope/vim-commentary' },
+
 	-- formatter
 	{
 		'stevearc/conform.nvim',
@@ -132,7 +157,7 @@ require("lazy").setup({
 					yaml = { "prettier" },
 					markdown = { "prettier" },
 					lua = { "stylua" },
-					python = { "black" },
+					-- python = { "black" },
 				},
 			})
 		end,
@@ -208,6 +233,9 @@ cmp.setup {
 	},
 }
 
+-- colorscheme
+vim.cmd("colorscheme base16-rose-pine")
+
 -- terminal color
 vim.o.termguicolors = true
 
@@ -223,11 +251,13 @@ vim.o.undofile = true
 -- column line at 88 chars
 vim.opt.colorcolumn = "88"
 
+vim.opt.scrolloff = 8
+
 -- file explorer
 vim.keymap.set("n", "<leader>fe", vim.cmd.Ex)
 
 -- common clipboard
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = ''
 
 -- integration with external clipboard (xclip must be installed)
 vim.keymap.set("n", "<leader>y", '"+y')
